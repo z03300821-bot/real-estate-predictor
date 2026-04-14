@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Favorites - Real Estate Vision</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* ---------------- GLOBAL ---------------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Urbanist', sans-serif;
+    background: url('images/wall.jpg') center/cover no-repeat fixed;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.45);
+    min-height: 100vh;
+}
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+  width: 100%;
+  background: rgba(92, 64, 51, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-container {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 700;
+  color: #F8DFA8;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #ffe9c6;
+  font-size: 17px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  color: #ffffff;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 3px;
+}
+
+.signout-btn {
+  background: #F8DFA8;
+  color: #5C4033;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.signout-btn:hover {
+  background: #fff2c4;
+  transform: scale(1.05);
+}
+
+/* ---------------- TITLE ---------------- */
+.title {
+    text-align: center;
+    color: #fff;
+    font-size: 42px;
+    margin-top: 40px;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+/* ---------------- FAVORITE CARDS ---------------- */
+.fav-container {
+    width: 90%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+}
+
+.fav-card {
+    background: #ffffffee;
+    backdrop-filter: blur(6px);
+    border-radius: 18px;
+    padding-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    transition: .35s;
+}
+
+.fav-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+}
+
+.fav-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.like-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ffffffdd;
+  border: none;
+  font-size: 26px;
+  color: #d63232;
+  padding: 10px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  transition: 0.3s;
+}
+
+.like-btn:hover {
+  transform: scale(1.18);
+  background: #fff;
+}
+
+.fav-info {
+    padding: 18px;
+}
+
+.fav-info h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #1e1e1e;
+}
+
+.fav-info p {
+    margin: 10px 0 15px;
+    color: #444;
+    font-size: 15px;
+}
+
+/* Address font styling - Inter font for address/city text */
+.fav-info p:first-of-type,
+.fav-info p.address-text,
+.fav-info p .address-text {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.remove-btn {
+    background: #ff5252;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.remove-btn:hover {
+    background: #e84141;
+}
+
+.contact-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: .3s;
+    flex: 1;
+}
+
+.contact-btn:hover {
+    background: #45a049;
+}
+
+/* -------------------- Footer -------------------- */
+footer {
+  background-color: #1f1f1f;
+  color: #eaeaea;
+  padding: 55px 70px 25px;
+  font-size: 16px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.footer-left img {
+  width: 140px;
+  margin-bottom: 12px;
+}
+
+.footer-left p {
+  font-size: 17px;
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+.footer-social a img {
+  width: 24px;
+  transition: transform 0.3s;
+}
+
+.footer-social a:hover img {
+  transform: scale(1.15);
+}
+
+.footer-column h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 9px;
+}
+
+.footer-column ul li a {
+  text-decoration: none;
+  color: #bfbfbf;
+  transition: color 0.3s;
+  font-size: 16px;
+}
+
+.footer-column ul li a:hover {
+  color: #ffffff;
+}
+
+.footer-divider {
+  border-top: 1px solid #444;
+  margin: 25px 0 10px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 15px;
+  color: #999;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">Real Estate Vision</div>
+
+    <ul class="nav-links">
+      <li><a href="{{ url_for('homepage') }}">Home</a></li>
+        <li><a href="{{ url_for('exploring') }}">Exploring</a></li>
+        <li><a href="{{ url_for('predictions') }}">Predictions</a></li>
+        <li><a href="{{ url_for('favorite') }}">Favorite</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+      
+    </ul>
+
+    <button class="signout-btn" onclick="window.location.href='logout.php'">Sign Out</button>
+  </div>
+</nav>
+
+<!-- TITLE -->
+<div class="title">Your Favorite Homes</div>
+
+<!-- Empty State -->
+<div id="emptyState" style="display: none; text-align: center; padding: 60px 20px; color: #fff;">
+  <i class="fas fa-heart" style="font-size: 64px; color: #F8DFA8; margin-bottom: 20px; opacity: 0.5;"></i>
+  <h2 style="font-size: 28px; margin-bottom: 15px;">No favorites yet</h2>
+  <p style="font-size: 18px; margin-bottom: 30px;">Start exploring properties and save your favorites!</p>
+  <button onclick="window.location.href='exploring.html'" style="background: #C65D20; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">Explore Properties</button>
+</div>
+
+<!-- FAVORITE GRID -->
+<div class="fav-container" id="favoritesContainer">
+  <!-- Favorites will be loaded dynamically from database -->
+  <div style="text-align: center; padding: 40px; color: #fff;">
+    <div class="spinner" style="border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid #F8DFA8; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+    <p>Loading your favorites...</p>
+  </div>
+</div>
+
+<!-- Footer -->
+  <footer>
+<div class="footer-container">
+  <div class="footer-left">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    <p>Real Estate Vision</p>
+    <div class="footer-social">
+      <a href="#"><img src="{{ url_for('static', filename='images/facebook.png')}}" alt="Facebook"></a>
+      <a href="#"><img src="{{ url_for('static', filename='images/twitter.png')}}" alt="Twitter"></a>
+      <a href="#"><img src="{{ url_for('static', filename='images/instagram.png')}}" alt="Instagram"></a>
+      <a href="#"><img src="{{ url_for('static', filename='images/linkedin.png')}}" alt="Linkedin"></a>
+    </div>
+  </div>
+
+  <div class="footer-column">
+    <h4>Quick Links</h4>
+    <ul>
+      <li><a href="{{ url_for('homepage') }}">Home</a></li>
+        <li><a href="{{ url_for('exploring') }}">Exploring</a></li>
+        <li><a href="{{ url_for('predictions') }}">Predictions</a></li>
+        <li><a href="{{ url_for('favorite') }}">Favorite</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+      
+    </ul>
+  </div>
+
+  <div class="footer-column">
+    <h4>Services</h4>
+    <ul>
+      <li>Exploring Home</li>
+      <li>Sale Home</li>
+      <li>Buyer-Seller Communication</li>
+      <li>Recommended Properties</li>
+      <li>Customer Support</li>
+    </ul>
+  </div>
+
+  <div class="footer-column">
+    <h4>Follow & Contact</h4>
+    <ul>
+      <li>Sultanate of Oman</li>
+      <li>📞 95237331</li>
+      <li>📧 realestatevision@gmail.com</li>
+      <li>🕐 Mon-Fri: 9AM - 5PM</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer-divider"></div>
+
+<div class="footer-bottom">
+  <p>© 2025 Real Estate Vision. All rights reserved.</p>
+</div>
+</footer>
+
+</div>
+
+<script>
+// Load favorites from database
+async function loadFavorites() {
+  const container = document.getElementById('favoritesContainer');
+  const emptyState = document.getElementById('emptyState');
+  
+  try {
+    const response = await fetch('php/get_user_favorites.php');
+    const data = await response.json();
+    
+    if (data.success && data.favorites.length > 0) {
+      container.innerHTML = '';
+      data.favorites.forEach(fav => {
+        const card = document.createElement('div');
+        card.className = 'fav-card';
+        card.setAttribute('data-id', fav.property_id);
+        card.innerHTML = `
+          <button class="like-btn" onclick="removeFavorite(${fav.property_id}, this)">❤</button>
+          <div class="fav-img">
+            <img src="${fav.image}" alt="${fav.title}" onerror="this.src='images/house1.jpg'">
+          </div>
+          <div class="fav-info">
+            <h3>${fav.title}</h3>
+            <p class="address-text" style="font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: 0.3px;"><strong>City:</strong> ${fav.city} · <strong>Price:</strong> ${fav.price.toLocaleString()} OMR · <strong>Area:</strong> ${fav.area} m²</p>
+            <p style="margin-top: 10px; font-size: 14px; color: #666;"><strong>Bedrooms:</strong> ${fav.bedrooms} · <strong>Bathrooms:</strong> ${fav.bathrooms}</p>
+            <p style="margin-top: 5px; font-size: 13px; color: #999;">Added: ${new Date(fav.favorited_at).toLocaleDateString()}</p>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button class="remove-btn" onclick="removeFavorite(${fav.property_id}, this)">Remove</button>
+              <button class="contact-btn" onclick="contactSeller(${fav.property_id}, '${fav.phone_number}')">Contact Seller</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      emptyState.style.display = 'none';
+      container.style.display = 'grid';
+    } else {
+      container.style.display = 'none';
+      emptyState.style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Error loading favorites:', error);
+    // Check if user is logged in
+    if (error.message.includes('401') || error.message.includes('login')) {
+      emptyState.innerHTML = `
+        <i class="fas fa-lock" style="font-size: 64px; color: #F8DFA8; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h2 style="font-size: 28px; margin-bottom: 15px;">Please Login</h2>
+        <p style="font-size: 18px; margin-bottom: 30px;">You need to login to view your favorites.</p>
+        <button onclick="window.location.href='login.html?type=buyer'" style="background: #C65D20; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">Login</button>
+      `;
+      emptyState.style.display = 'block';
+      container.style.display = 'none';
+    } else {
+      container.style.display = 'none';
+      emptyState.style.display = 'block';
+    }
+  }
+}
+
+// Remove favorite
+async function removeFavorite(propertyId, element) {
+  if (!confirm('Are you sure you want to remove this property from your favorites?')) {
+    return;
+  }
+  
+  try {
+    const formData = new FormData();
+    formData.append('property_id', propertyId);
+    
+    const response = await fetch('php/remove_favorite.php', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      // Find and remove the card
+      const card = document.querySelector(`.fav-card[data-id="${propertyId}"]`);
+      if (card) {
+        card.style.transition = 'opacity 0.3s, transform 0.3s';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.8)';
+        
+        setTimeout(() => {
+          card.remove();
+          checkEmptyState();
+        }, 300);
+      }
+      
+      showNotification('✅ Removed from favorites', 'success');
+    } else {
+      showNotification('❌ ' + data.error, 'error');
+    }
+  } catch (error) {
+    console.error('Error removing favorite:', error);
+    showNotification('❌ Failed to remove. Please try again.', 'error');
+  }
+}
+
+function contactSeller(propertyId, phoneNumber) {
+  if (phoneNumber) {
+    if (confirm(`Contact seller at ${phoneNumber}?`)) {
+      window.location.href = `tel:${phoneNumber}`;
+    }
+  } else {
+    alert('Contact seller feature coming soon! This will allow you to message the property owner.');
+  }
+}
+
+function checkEmptyState() {
+  const container = document.getElementById('favoritesContainer');
+  const emptyState = document.getElementById('emptyState');
+  
+  if (container.children.length === 0) {
+    emptyState.style.display = 'block';
+    container.style.display = 'none';
+  } else {
+    emptyState.style.display = 'none';
+    container.style.display = 'grid';
+  }
+}
+
+// Show notification
+function showNotification(message, type) {
+  const existing = document.querySelector('.notification');
+  if (existing) existing.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    font-weight: 600;
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadFavorites();
+});
+</script>
+
+</body>
+</html>
+

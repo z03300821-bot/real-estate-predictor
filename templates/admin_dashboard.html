@@ -1,0 +1,20 @@
+<!-- admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome Admin</h1>
+
+    <div class="admin-tools">
+        <p style="color:red;">⚠ الضغط على هذا الزر يحدث البيانات ويعيد تدريب المودل.</p>
+        <a href="{{ url_for('update_data') }}">
+            <button>Update Market Data</button>
+        </a>
+    </div>
+
+    <!-- هنا ممكن تضيفين أدوات ثانية لاحقًا -->
+</body>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exploring - Real Estate Vision</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&family=Urbanist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* -------------------- Global Styles -------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Urbanist', sans-serif; /* Default font for body, navbar, footer */
+}
+
+body {
+  background-color: #f7f9fc;
+  color: #333;
+}
+
+/* -------------------- Navbar -------------------- */
+.navbar {
+  width: 100%;
+  background: linear-gradient(to right, #5C4033, #C65D20);
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #ffe9c6;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.buttons .btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.login, .signup {
+  background: #F8DFA8;
+  color: #5C4033;
+}
+
+.login:hover, .signup:hover {
+  background: #fff2c4;
+}
+
+/* -------------------- Hero Section Adjusted -------------------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('images/bedroom.jpg') center/cover no-repeat;
+  position: relative;
+  height: 300px; /* أصغر من قبل */
+  padding: 0 50px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.15); /* أخف وأصغر */
+}
+
+.hero-text {
+  text-align: center;
+  z-index: 1;
+  background: rgba(200,200,200,0.4); /* صندوق رصاصي شفاف خلف النص */
+  padding: 15px 25px;
+  border-radius: 12px;
+}
+
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px; /* أصغر */
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px; /* أصغر */
+  line-height: 1.6;
+  color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+
+/* -------------------- Search and Filters Section -------------------- */
+.search-filters-section {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px 50px;
+  margin: 40px 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.search-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 20px;
+  border: 2px solid #C65D20;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fff8f0;
+}
+
+.search-bar button {
+  padding: 12px 30px;
+  background: #C65D20;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-bar button:hover {
+  background: #5C4033;
+}
+
+.filters-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5C4033;
+  margin-bottom: 5px;
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 10px;
+  border: 2px solid #C65D20;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff8f0;
+}
+
+/* -------------------- Explore Homes Section -------------------- */
+.homes-section {
+  text-align: center;
+  padding: 60px 50px;
+}
+
+.homes-section h2 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #5C4033;
+  margin-bottom: 40px;
+  font-family: 'Playfair Display', serif;
+}
+
+.homes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap: 30px;
+}
+
+/* Home Card Animation */
+.home-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.home-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s ease-out;
+}
+
+.home-icon {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.home-card h3 {
+  text-align: center;
+  font-size: 22px;
+  color: #5C4033;
+  margin-bottom: 15px;
+  font-family: 'Playfair Display', serif;
+}
+
+.home-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+  font-family: 'Lato', sans-serif;
+}
+
+.home-card ul li {
+  font-size: 15px;
+  color: #333;
+  margin: 5px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+/* Address font styling - Inter font for all address/city/location text */
+.home-card ul li:first-child,
+.home-card ul li.address-text,
+.address-text,
+.city-text,
+.location-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.home-card ul li::before {
+  content: "•";
+  position: absolute;
+  left:0;
+  color:#C65D20;
+}
+
+.home-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.visit-btn {
+  background: #C65D20;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.visit-btn:hover {
+  background: #5C4033;
+}
+
+.fav-btn {
+  background: transparent;
+  color: #C65D20;
+  border: 2px solid #C65D20;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.fav-btn:hover {
+  background: #C65D20;
+  color: white;
+}
+
+.fav-btn.favorited {
+  background: #ff5252;
+  color: white;
+  border-color: #ff5252;
+}
+
+.fav-btn.favorited:hover {
+  background: #e84141;
+}
+
+/* -------------------- Footer -------------------- */
+
+footer {
+  background-color: #1f1f1f;
+  color: #eaeaea;
+  padding: 55px 70px 25px;
+  font-size: 16px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.footer-left img {
+  width: 140px;
+  margin-bottom: 12px;
+}
+
+.footer-left p {
+  font-size: 17px;
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+.footer-social a img {
+  width: 24px;
+  transition: transform 0.3s;
+}
+
+.footer-social a:hover img {
+  transform: scale(1.15);
+}
+
+.footer-column h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 9px;
+}
+
+.footer-column ul li a {
+  text-decoration: none;
+  color: #bfbfbf;
+  transition: color 0.3s;
+  font-size: 16px;
+}
+
+.footer-column ul li a:hover {
+  color: #ffffff;
+}
+
+.footer-divider {
+  border-top: 1px solid #444;
+  margin: 25px 0 10px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 15px;
+  color: #999;
+}
+
+/* -------------------- Responsive -------------------- */
+@media(max-width:900px){
+  .hero { height:auto; padding: 50px 30px;}
+  .hero-text h1 { font-size:48px; }
+  .hero-text p { font-size:20px; }
+  .homes-container { grid-template-columns: 1fr; gap:20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="logo">Real Estate Vision</div>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('homepage') }}">Home</a></li>
+        <li><a href="{{ url_for('exploring') }}">Exploring</a></li>
+        <li><a href="{{ url_for('predictions') }}">Predictions</a></li>
+        <li><a href="{{ url_for('favorite') }}">Favorite</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+    
+  </ul>
+  <div class="buttons">
+    <button class="btn login" onclick="window.location.href='login.html'">Log In</button>
+    <button class="btn signup" onclick="window.location.href='register.html'">Register</button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Exploring Page</h1>
+    <p>Start your journey to discover your dream home — explore, compare, and find your perfect match.</p>
+  </div>
+</section>
+
+<!-- Search and Filters Section -->
+<section class="search-filters-section">
+  <h3 style="color: #5C4033; margin-bottom: 20px; font-family: 'Playfair Display', serif;">Search & Filter Properties</h3>
+  
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by city, area, or property type...">
+    <button onclick="filterProperties()"><i class="fas fa-search"></i> Search</button>
+  </div>
+  
+  <div class="filters-container">
+    <div class="filter-group">
+      <label>Price Range (OMR)</label>
+      <select id="priceFilter">
+        <option value="">All Prices</option>
+        <option value="0-100000">0 - 100,000</option>
+        <option value="100000-200000">100,000 - 200,000</option>
+        <option value="200000-300000">200,000 - 300,000</option>
+        <option value="300000-500000">300,000 - 500,000</option>
+        <option value="500000+">500,000+</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Bedrooms</label>
+      <select id="bedroomFilter">
+        <option value="">Any</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="5">5+</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Area (m²)</label>
+      <select id="areaFilter">
+        <option value="">Any Size</option>
+        <option value="0-500">0 - 500 m²</option>
+        <option value="500-700">500 - 700 m²</option>
+        <option value="700-1000">700 - 1,000 m²</option>
+        <option value="1000+">1,000+ m²</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Location (Oman)</label>
+      <select id="locationFilter">
+        <option value="">All Locations</option>
+        <optgroup label="Muscat Governorate">
+          <option value="muscat">Muscat</option>
+          <option value="seeb">Seeb</option>
+          <option value="bausher">Bausher</option>
+          <option value="al khuwair">Al Khuwair</option>
+          <option value="qurum">Qurum</option>
+          <option value="ruwi">Ruwi</option>
+          <option value="muttrah">Muttrah</option>
+        </optgroup>
+        <optgroup label="Dhofar">
+          <option value="salalah">Salalah</option>
+          <option value="raysut">Raysut</option>
+          <option value="taqah">Taqah</option>
+        </optgroup>
+        <optgroup label="Al Batinah">
+          <option value="sohar">Sohar</option>
+          <option value="saham">Saham</option>
+          <option value="barka">Barka</option>
+          <option value="rustaq">Rustaq</option>
+        </optgroup>
+        <optgroup label="Al Sharqiyah">
+          <option value="sur">Sur</option>
+          <option value="ibra">Ibra</option>
+          <option value="bidiyah">Bidiyah</option>
+        </optgroup>
+        <optgroup label="Ad Dakhiliyah">
+          <option value="nizwa">Nizwa</option>
+          <option value="bahla">Bahla</option>
+          <option value="adam">Adam</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="ibri">Ibri</option>
+          <option value="buraimi">Buraimi</option>
+          <option value="khasab">Khasab</option>
+        </optgroup>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Sort By</label>
+      <select id="sortFilter" onchange="sortProperties()">
+        <option value="newest">Newest First</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="area-large">Area: Largest First</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Homes Section -->
+<section class="homes-section">
+  <h2>Explore all homes for sale</h2>
+  <div class="homes-container" id="propertiesContainer">
+  </div>
+</section>
+
+<!-- Footer -->
+  <footer>
+<div class="footer-container">
+  <div class="footer-left">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    <p>Real Estate Vision</p>
+    <div class="footer-social">
+      <a href="#"><img src="{{ url_for('static', filename='images/facebook.png')}}" alt="Facebook"></a>
+      <a href="#"><img src="{{ url_for('static', filename='images/twitter.png')}}" alt="Twitter"></a>
+      <a href="#"><img src="{{ url_for('static', filename='images/instagram.png')}}" alt="Instagram"></a>
+      <a href="#"><img src="{{ url_for('static', filename='images/linkedin.png')}}" alt="Linkedin"></a>
+    </div>
+  </div>
+
+  <div class="footer-column">
+    <h4>Quick Links</h4>
+    <ul>
+      <li><a href="{{ url_for('homepage') }}">Home</a></li>
+        <li><a href="{{ url_for('exploring') }}">Exploring</a></li>
+        <li><a href="{{ url_for('predictions') }}">Predictions</a></li>
+        <li><a href="{{ url_for('favorite') }}">Favorite</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+      
+    </ul>
+  </div>
+
+  <div class="footer-column">
+    <h4>Services</h4>
+    <ul>
+      <li>Exploring Home</li>
+      <li>Sale Home</li>
+      <li>Buyer-Seller Communication</li>
+      <li>Recommended Properties</li>
+      <li>Customer Support</li>
+    </ul>
+  </div>
+
+  <div class="footer-column">
+    <h4>Follow & Contact</h4>
+    <ul>
+      <li>Sultanate of Oman</li>
+      <li>📞 95237331</li>
+      <li>📧 realestatevision@gmail.com</li>
+      <li>🕐 Mon-Fri: 9AM - 5PM</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer-divider"></div>
+
+<div class="footer-bottom">
+  <p>© 2025 Real Estate Vision. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+// Property data - loaded from database
+let properties = [];
+let userFavorites = []; // Track user's favorites
+
+// Load properties from database
+async function loadProperties() {
+  try {
+    const response = await fetch('php/get_properties.php');
+    const data = await response.json();
+    
+    if (data.success) {
+      properties = data.properties;
+      renderProperties(properties);
+    } else {
+      console.error('Failed to load properties');
+      // Fallback to sample data
+      properties = [
+        { id: 1, title: 'Modern House', city: 'Salalah', price: 550000, area: 700, bedrooms: 4, image: 'images/modrenhous.jpeg' },
+        { id: 2, title: 'Traditional House', city: 'Sohar', price: 610000, area: 650, bedrooms: 3, image: 'images/traditionalhous.jpeg' },
+        { id: 3, title: 'Twine Villa', city: 'Muscat', price: 640000, area: 750, bedrooms: 5, image: 'images/twinevilla.jpeg' }
+      ];
+      renderProperties(properties);
+    }
+  } catch (error) {
+    console.error('Error loading properties:', error);
+    // Fallback to sample data
+    properties = [
+      { id: 1, title: 'Modern House', city: 'Salalah', price: 550000, area: 700, bedrooms: 4, image: 'images/modrenhous.jpeg' },
+      { id: 2, title: 'Traditional House', city: 'Sohar', price: 610000, area: 650, bedrooms: 3, image: 'images/traditionalhous.jpeg' },
+      { id: 3, title: 'Twine Villa', city: 'Muscat', price: 640000, area: 750, bedrooms: 5, image: 'images/twinevilla.jpeg' }
+    ];
+    renderProperties(properties);
+  }
+}
+
+// Render properties
+function renderProperties(props = properties) {
+  const container = document.getElementById('propertiesContainer');
+  container.innerHTML = '';
+  
+  props.forEach(prop => {
+    const card = document.createElement('div');
+    card.className = 'home-card';
+    card.setAttribute('data-id', prop.id);
+    card.innerHTML = `
+      <div class="home-icon">🏠</div>
+      <h3>${prop.title}</h3>
+      <ul>
+        <li class="address-text" style="font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: 0.3px;">City: ${prop.city}</li>
+        <li>Price: ${prop.price.toLocaleString()} OMR</li>
+        <li>Building area: ${prop.area} m²</li>
+        <li>Bedrooms: ${prop.bedrooms}</li>
+      </ul>
+      <img src="${prop.image}" alt="${prop.title}">
+      <div class="buttons">
+        <button class="visit-btn" onclick="viewProperty(${prop.id})">View Details</button>
+        <button class="fav-btn ${userFavorites.includes(prop.id) ? 'favorited' : ''}" 
+                onclick="addToFavorites(${prop.id}, this)" 
+                id="fav-btn-${prop.id}">
+          ${userFavorites.includes(prop.id) ? '❤️ In Favorites' : '🤍 Add to Favorites'}
+        </button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  
+  // Re-observe cards for animation
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.home-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
+  }, 100);
+}
+
+// Filter properties
+function filterProperties() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const priceFilter = document.getElementById('priceFilter').value;
+  const bedroomFilter = document.getElementById('bedroomFilter').value;
+  const areaFilter = document.getElementById('areaFilter').value;
+  const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
+  
+  let filtered = properties.filter(prop => {
+    // Search filter
+    if (searchTerm && !prop.title.toLowerCase().includes(searchTerm) && 
+        !prop.city.toLowerCase().includes(searchTerm)) {
+      return false;
+    }
+    
+    // Price filter
+    if (priceFilter) {
+      if (priceFilter === '500000+') {
+        if (prop.price < 500000) return false;
+      } else {
+        const [min, max] = priceFilter.split('-').map(Number);
+        if (prop.price < min || prop.price > max) return false;
+      }
+    }
+    
+    // Bedroom filter
+    if (bedroomFilter && prop.bedrooms < parseInt(bedroomFilter)) {
+      return false;
+    }
+    
+    // Area filter
+    if (areaFilter) {
+      if (areaFilter === '1000+') {
+        if (prop.area < 1000) return false;
+      } else {
+        const [min, max] = areaFilter.split('-').map(Number);
+        if (prop.area < min || prop.area > max) return false;
+      }
+    }
+    
+    // Location filter
+    if (locationFilter && !prop.city.toLowerCase().includes(locationFilter)) {
+      return false;
+    }
+    
+    return true;
+  });
+  
+  renderProperties(filtered);
+}
+
+// Sort properties
+function sortProperties() {
+  const sortBy = document.getElementById('sortFilter').value;
+  const container = document.getElementById('propertiesContainer');
+  const cards = Array.from(container.children);
+  
+  cards.sort((a, b) => {
+    const propA = properties.find(p => p.id === parseInt(a.dataset.id || 0));
+    const propB = properties.find(p => p.id === parseInt(b.dataset.id || 0));
+    
+    switch(sortBy) {
+      case 'price-low':
+        return propA.price - propB.price;
+      case 'price-high':
+        return propB.price - propA.price;
+      case 'area-large':
+        return propB.area - propA.area;
+      default:
+        return 0;
+    }
+  });
+  
+  cards.forEach(card => container.appendChild(card));
+}
+
+// View property details
+function viewProperty(id) {
+  // In production, redirect to property details page
+  alert('Property details page coming soon!');
+}
+
+// Add to favorites
+async function addToFavorites(id, buttonElement) {
+  // Check if user is logged in
+  try {
+    const formData = new FormData();
+    formData.append('property_id', id);
+    
+    const response = await fetch('php/add_favorite.php', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      // Update UI
+      if (buttonElement) {
+        buttonElement.classList.add('favorited');
+        buttonElement.innerHTML = '❤️ In Favorites';
+      }
+      userFavorites.push(id);
+      
+      // Show success message
+      showNotification('✅ ' + data.message, 'success');
+    } else {
+      if (response.status === 401) {
+        // User not logged in
+        if (confirm('Please login to add favorites. Would you like to login now?')) {
+          window.location.href = 'login.html?type=buyer';
+        }
+      } else {
+        showNotification('❌ ' + data.error, 'error');
+      }
+    }
+  } catch (error) {
+    console.error('Error adding to favorites:', error);
+    showNotification('❌ Failed to add to favorites. Please try again.', 'error');
+  }
+}
+
+// Show notification
+function showNotification(message, type) {
+  // Remove existing notifications
+  const existing = document.querySelector('.notification');
+  if (existing) existing.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    font-weight: 600;
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Add CSS for notification animation
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+// Load user favorites (if logged in)
+async function loadUserFavorites() {
+  try {
+    const response = await fetch('php/get_favorites.php');
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        userFavorites = data.favorites.map(f => f.property_id);
+      }
+    }
+  } catch (error) {
+    // User might not be logged in, which is fine
+    console.log('Not logged in or favorites not available');
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', async () => {
+  // Load user favorites first
+  await loadUserFavorites();
+  
+  // Then load and render properties
+  await loadProperties();
+  
+  // Add event listeners
+  document.getElementById('searchInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') filterProperties();
+  });
+  
+  ['priceFilter', 'bedroomFilter', 'areaFilter', 'locationFilter'].forEach(id => {
+    document.getElementById(id).addEventListener('change', filterProperties);
+  });
+});
+</script>
+
+</body>
+</html>

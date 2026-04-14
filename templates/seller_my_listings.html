@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Listings - Real Estate Vision</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* ========== GLOBAL ========== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+:root{
+--dark-orange:#C65D20;
+--light-beige:#F5E9D3;
+--brown:#5C4033;
+--soft-yellow:#F8DFA8;
+}
+body{background:#f7f4ef;overflow-x:hidden;}
+
+/* ========== NAVBAR ========== */
+.navbar{
+width:100%;
+background:linear-gradient(to right,var(--brown),var(--dark-orange));
+padding:15px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+}
+.logo{font-size:24px;font-weight:700;color:white;text-decoration:none;}
+.nav-links{list-style:none;display:flex;gap:25px;}
+.nav-links a{text-decoration:none;color:#ffe9c6;font-weight:500;transition:0.3s;}
+.nav-links a:hover{color:white;}
+.buttons .btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-weight:600;background:var(--soft-yellow);color:var(--brown);transition:0.3s;}
+.buttons .btn:hover{background:#fff2c4;}
+
+/* ========== SELLER DASHBOARD LAYOUT ========== */
+.seller-dashboard{display:flex;min-height:85vh;}
+
+/* Sidebar */
+.sidebar{
+width:260px;
+background:linear-gradient(to bottom,var(--brown),var(--dark-orange));
+padding:30px 20px;
+color:white;
+}
+.sidebar h2{margin-bottom:30px;font-size:22px;}
+.sidebar ul{list-style:none;}
+.sidebar ul li{margin-bottom:18px;}
+.sidebar ul li a{text-decoration:none;color:#ffe9c6;transition:0.3s;}
+.sidebar ul li a:hover, .sidebar ul li a.active{color:white;font-weight:600;}
+
+/* Main Content */
+.dashboard-content{flex:1;padding:40px;background:#f7f4ef;}
+.dashboard-content h1{color:var(--brown);margin-bottom:30px;}
+
+/* Table */
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
+margin-bottom:30px;
+}
+table th, table td{padding:15px;text-align:center;}
+table th{background:var(--light-beige);}
+table tr:nth-child(even){background:#f9f9f9;}
+
+/* Status */
+.status{padding:6px 12px;border-radius:6px;font-size:13px;}
+.status.available{background:#c8f7c5;color:#2d7a2d;}
+.status.sold{background:#ffb3b3;color:#a80000;}
+
+/* Buttons */
+.edit-btn{background:var(--soft-yellow);border:none;padding:6px 12px;border-radius:6px;cursor:pointer;}
+.delete-btn{background:#ffb3b3;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;}
+
+/* ========== FOOTER ========== */
+footer{
+background:#1f1f1f;color:#eaeaea;padding:55px 70px 25px;font-size:16px;
+}
+.footer-container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;}
+.footer-column h4{margin-bottom:15px;}
+.footer-column ul{list-style:none;}
+.footer-column ul li{margin-bottom:8px;}
+.footer-column ul li a{text-decoration:none;color:#bfbfbf;}
+.footer-column ul li a:hover{color:white;}
+.footer-divider{border-top:1px solid #444;margin:25px 0 10px;}
+.footer-bottom{text-align:center;color:#999;}
+
+/* Responsive */
+@media(max-width:900px){
+.seller-dashboard{flex-direction:column;}
+.sidebar{width:100%;text-align:center;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+<a href="#" class="logo">Real Estate Vision</a>
+<ul class="nav-links">
+<li><a href="{{ url_for('homepage') }}">Home</a></li>
+<li><a href="{{ url_for('exploring') }}">Exploring</a></li>
+<li><a href="{{ url_for('predictions') }}">Predictions</a></li>
+<li><a href="{{ url_for('seller_dashboard') }}">Dashboard</a></li>
+</ul>
+<a href="{{ url_for('logout') }}">
+<button class="btn">Logout</button>
+</a>
+</nav>
+
+<!-- SELLER DASHBOARD -->
+<section class="seller-dashboard">
+
+<!-- Sidebar -->
+<div class="sidebar">
+<h2>Seller Panel</h2>
+<ul>
+<li><a href="{{ url_for('seller_dashboard') }}">Dashboard</a></li>
+<li><a href="{{ url_for('add_property') }}">Add Property</a></li>
+<li><a href="#" class="active">My Listings</a></li>
+<li><a href="{{ url_for('profile') }}">Profile</a></li>
+<li><a href="{{ url_for('login') }}">Logout</a></li>
+</ul>
+</div>
+
+<!-- Main Content -->
+<div class="dashboard-content">
+<h1>My Listings 🏘️</h1>
+
+{% if properties %}
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Location</th>
+<th>Type</th>
+<th>Price</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for property in properties %}
+<tr>
+<td>{{ property.title }}</td>
+<td>{{ property.governorate }}, {{ property.wilayat }}</td>
+<td>{{ property.property_type }}</td>
+<td>${{ "{:,.2f}".format(property.price) }}</td>
+<td>
+<span class="status {% if property.status=='Available' %}available{% else %}sold{% endif %}">
+{{ property.status }}
+</span>
+</td>
+<td>
+<a href="{{ url_for('edit_property', property_id=property.id) }}"><button class="edit-btn">Edit</button></a>
+<form action="{{ url_for('delete_property', property_id=property.id) }}" method="POST" style="display:inline;">
+    <button type="submit" class="delete-btn"
+    onclick="return confirm('Are you sure you want to delete this property?')">
+    Delete
+    </button>
+</form>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>You have not added any properties yet. <a href="{{ url_for('add_property') }}">Add a property now</a>.</p>
+{% endif %}
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-container">
+<div class="footer-column">
+<h4>Real Estate Vision</h4>
+<ul>
+<li>Sultanate of Oman</li>
+<li>📞 95237331</li>
+<li>📧 realestatevision@gmail.com</li>
+</ul>
+</div>
+<div class="footer-column">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="{{ url_for('homepage') }}">Home</a></li>
+<li><a href="{{ url_for('exploring') }}">Exploring</a></li>
+<li><a href="{{ url_for('predictions') }}">Predictions</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer-divider"></div>
+<div class="footer-bottom">
+© 2025 Real Estate Vision. All rights reserved.
+</div>
+</footer>
+
+</body>
+</html>

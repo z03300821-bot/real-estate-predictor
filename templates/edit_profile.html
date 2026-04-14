@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Profile - Real Estate Vision</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+:root{
+--dark-orange:#C65D20;
+--light-beige:#F5E9D3;
+--brown:#5C4033;
+--soft-yellow:#F8DFA8;
+}
+
+body{background:#f7f4ef;}
+
+/* Navbar */
+.navbar{
+width:100%;
+background:linear-gradient(to right,var(--brown),var(--dark-orange));
+padding:15px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:white;
+}
+
+/* Layout */
+.seller-dashboard{display:flex;min-height:85vh;}
+
+.sidebar{
+width:260px;
+background:linear-gradient(to bottom,var(--brown),var(--dark-orange));
+padding:30px 20px;
+color:white;
+}
+
+.sidebar ul{list-style:none;}
+.sidebar ul li{margin-bottom:18px;}
+.sidebar ul li a{
+text-decoration:none;
+color:#ffe9c6;
+transition:0.3s;
+}
+.sidebar ul li a:hover,
+.sidebar ul li a.active{
+color:white;
+font-weight:600;
+}
+
+/* Content */
+.dashboard-content{
+flex:1;
+padding:40px;
+}
+
+.edit-profile-card{
+background:white;
+padding:35px;
+border-radius:15px;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+max-width:600px;
+margin:auto;
+}
+
+.edit-profile-card h2{
+color:var(--brown);
+margin-bottom:25px;
+text-align:center;
+}
+
+.form-group{margin-bottom:20px;}
+
+.form-group label{
+display:block;
+margin-bottom:8px;
+font-weight:600;
+color:var(--brown);
+}
+
+.form-group input{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:var(--soft-yellow);
+color:var(--brown);
+border:none;
+padding:12px;
+width:100%;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+}
+
+button:hover{
+background:#fff2c4;
+}
+
+/* Footer */
+footer{
+background:#1f1f1f;
+color:#eaeaea;
+padding:40px;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>Real Estate Vision</h2>
+<div>{{ session['name'] }}</div>
+</div>
+
+<section class="seller-dashboard">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h2>Seller Panel</h2>
+<ul>
+<li><a href="{{ url_for('seller_dashboard') }}">Dashboard</a></li>
+<li><a href="{{ url_for('profile') }}">Profile</a></li>
+<li><a href="#" class="active">Edit Profile</a></li>
+<li><a href="{{ url_for('my_listings') }}">My Listings</a></li>
+<li><a href="{{ url_for('login') }}">Logout</a></li>
+</ul>
+</div>
+
+<!-- CONTENT -->
+<div class="dashboard-content">
+
+<div class="edit-profile-card">
+<h2>Edit Profile</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+<div class="form-group">
+<label>Username</label>
+<input type="text" name="username" value="{{ user.username }}" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" name="email" value="{{ user.email }}" required>
+</div>
+
+<div class="form-group">
+<label>Phone</label>
+<input type="text" name="phone" value="{{ user.phone }}">
+</div>
+
+<div class="form-group">
+<label>Profile Image</label>
+<input type="file" name="profile_image">
+</div>
+
+<button type="submit">Update Profile</button>
+
+</form>
+
+</div>
+</div>
+</section>
+
+<footer>
+© 2025 Real Estate Vision. All rights reserved.
+</footer>
+
+</body>
+</html>

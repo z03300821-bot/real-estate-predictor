@@ -1,0 +1,236 @@
+<!-- seller_add_property.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Property - Real Estate Vision</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* ========== GLOBAL ========== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+:root{
+--dark-orange:#C65D20;
+--light-beige:#F5E9D3;
+--brown:#5C4033;
+--soft-yellow:#F8DFA8;
+}
+body{background:#f7f4ef;overflow-x:hidden;}
+
+/* ========== NAVBAR ========== */
+.navbar{
+width:100%;
+background:linear-gradient(to right,var(--brown),var(--dark-orange));
+padding:15px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+}
+.logo{font-size:24px;font-weight:700;color:white;text-decoration:none;}
+.nav-links{list-style:none;display:flex;gap:25px;}
+.nav-links a{text-decoration:none;color:#ffe9c6;font-weight:500;transition:0.3s;}
+.nav-links a:hover{color:white;}
+.buttons .btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-weight:600;background:var(--soft-yellow);color:var(--brown);transition:0.3s;}
+.buttons .btn:hover{background:#fff2c4;}
+
+/* ========== SELLER DASHBOARD LAYOUT ========== */
+.seller-dashboard{display:flex;min-height:85vh;}
+
+/* Sidebar */
+.sidebar{
+width:260px;
+background:linear-gradient(to bottom,var(--brown),var(--dark-orange));
+padding:30px 20px;
+color:white;
+}
+.sidebar h2{margin-bottom:30px;font-size:22px;}
+.sidebar ul{list-style:none;}
+.sidebar ul li{margin-bottom:18px;}
+.sidebar ul li a{text-decoration:none;color:#ffe9c6;transition:0.3s;}
+.sidebar ul li a:hover, .sidebar ul li a.active{color:white;font-weight:600;}
+
+/* Main Content */
+.dashboard-content{flex:1;padding:40px;background:#f7f4ef;}
+.dashboard-content h1{color:var(--brown);margin-bottom:30px;}
+
+/* Form */
+.add-property-form{
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+max-width:700px;
+margin:auto;
+}
+.add-property-form .form-group{margin-bottom:20px;}
+.add-property-form label{display:block;margin-bottom:8px;font-weight:600;color:var(--brown);}
+.add-property-form input, .add-property-form select, .add-property-form textarea{
+width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;outline:none;font-size:1rem;
+}
+.add-property-form button{
+background:var(--soft-yellow);color:var(--brown);border:none;padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:10px;width:100%;
+}
+.add-property-form button:hover{background:#fff2c4;}
+
+/* ========== FOOTER ========== */
+footer{
+background:#1f1f1f;color:#eaeaea;padding:55px 70px 25px;font-size:16px;
+}
+.footer-container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;}
+.footer-column h4{margin-bottom:15px;}
+.footer-column ul{list-style:none;}
+.footer-column ul li{margin-bottom:8px;}
+.footer-column ul li a{text-decoration:none;color:#bfbfbf;}
+.footer-column ul li a:hover{color:white;}
+.footer-divider{border-top:1px solid #444;margin:25px 0 10px;}
+.footer-bottom{text-align:center;color:#999;}
+
+/* Responsive */
+@media(max-width:900px){
+.seller-dashboard{flex-direction:column;}
+.sidebar{width:100%;text-align:center;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+<a href="#" class="logo">Real Estate Vision</a>
+<ul class="nav-links">
+<li><a href="#">Home</a></li>
+<li><a href="#">Exploring</a></li>
+<li><a href="#">Predictions</a></li>
+<li><a href="#">My Listings</a></li>
+</ul>
+<a href="{{ url_for('logout') }}">
+<button class="btn">Logout</button>
+</a>
+</nav>
+
+<!-- SELLER DASHBOARD -->
+<section class="seller-dashboard">
+
+<!-- Sidebar -->
+<div class="sidebar">
+<h2>Seller Panel</h2>
+<ul>
+<li><a href="{{ url_for('seller_dashboard') }}">Dashboard</a></li>
+<li><a href="#" class="active">Add Property</a></li>
+<li><a href="{{ url_for('my_listings') }}">My Listings</a></li>
+<li><a href="{{ url_for('profile') }}">Profile</a></li>
+<li><a href="#">Logout</a></li>
+</ul>
+</div>
+
+<!-- Main Content -->
+<div class="dashboard-content">
+<h1>Add New Property 🏡</h1>
+
+<div class="add-property-form">
+<form method="POST" action="{{ url_for('add_property') }}" enctype="multipart/form-data">
+<div class="form-group">
+<label>Property Title</label>
+<input type="text" name="title" required>
+</div>
+<div class="form-group">
+<label>Governorate</label>
+<input type="text" name="governorate" required>
+</div>
+<div class="form-group">
+<label>Wilayat</label>
+<input type="text" name="wilayat" required>
+</div>
+<div class="form-group">
+<label>Property Type</label>
+<select name="property_type" required>
+<option value="">Select type</option>
+<option value="Villa">Villa</option>
+<option value="Apartment">Apartment</option>
+<option value="Townhouse">Townhouse</option>
+</select>
+</div>
+<div class="form-group">
+<label>Surface Area (m²)</label>
+<input type="number" name="surface_area" required>
+</div>
+<div class="form-group">
+<label>Bedrooms</label>
+<input type="number" name="bedrooms" required>
+</div>
+<div class="form-group">
+<label>Bathrooms</label>
+<input type="number" name="bathrooms" required>
+</div>
+<div class="form-group">
+<label>Floor</label>
+<input type="number" name="floor" required>
+</div>
+<div class="form-group">
+<label>Building Age</label>
+<input type="number" name="building_age" required>
+</div>
+<div class="form-group">
+<label>Furnishing</label>
+<select name="furnishing" required>
+<option value="">Select</option>
+<option value="Furnished">Furnished</option>
+<option value="Unfurnished">Unfurnished</option>
+</select>
+</div>
+<div class="form-group">
+<label>Phone Number</label>
+<input type="text" name="phone" required>
+</div>
+<div class="form-group">
+<label>Price</label>
+<input type="number" name="price" required>
+</div>
+<div class="form-group">
+<label>Property Images</label>
+<input type="file" name="images" multiple>
+</div>
+
+<button type="submit">Add Property</button>
+</form>
+</div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-container">
+<div class="footer-column">
+<h4>Real Estate Vision</h4>
+<ul>
+<li>Sultanate of Oman</li>
+<li>📞 95237331</li>
+<li>📧 realestatevision@gmail.com</li>
+</ul>
+</div>
+<div class="footer-column">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">Exploring</a></li>
+<li><a href="#">Predictions</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer-divider"></div>
+<div class="footer-bottom">
+© 2025 Real Estate Vision. All rights reserved.
+</div>
+</footer>
+
+</body>
+</html>
