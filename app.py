@@ -1,7 +1,7 @@
 #app.py
 from flask import Flask, render_template, request, redirect, session, jsonify, url_for
 from predict import predict
-import mysql.connector
+import psycopg2
 from flask_bcrypt import Bcrypt
 import os
 from werkzeug.utils import secure_filename
@@ -11,13 +11,8 @@ app.secret_key = "secret123"
 bcrypt = Bcrypt(app)
 
 # -------------------- الاتصال بقاعدة البيانات --------------------
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="real_estate_vision"
-)
-cursor = db.cursor(dictionary=True)
+conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
+cursor = conn.cursor()
 
 # -------------------- تحديث السوق وإعادة تدريب النموذج --------------------
 @app.route('/update_data')
@@ -71,7 +66,7 @@ def add_property():
             (seller_id, title, governorate, wilayat, property_type, surface_area, bedrooms, bathrooms, floor, building_age, furnishing, phone, price, images)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, (seller_id, title, governorate, wilayat, property_type, surface_area, bedrooms, bathrooms, floor, building_age, furnishing, phone, price, images_str))
-        db.commit()
+        conn.commit()
 
         return redirect(url_for('seller_dashboard'))
 
@@ -459,4 +454,4 @@ def add_favorite(property_id):
 
 # -------------------- تشغيل السيرفر --------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
