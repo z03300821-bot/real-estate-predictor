@@ -38,4 +38,4 @@ def predict(data_dict):
     model = joblib.load("model.pkl")
     prediction = model.predict(df)[0]
 
-    return prediction
+    return float(prediction)

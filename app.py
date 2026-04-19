@@ -261,7 +261,7 @@ def make_prediction():
             "Furnishing": request.form.get("Furnishing")
         }
 
-        price = predict(data)
+        price = float(predict(data))
 
         cursor.execute("""
             INSERT INTO market_data
