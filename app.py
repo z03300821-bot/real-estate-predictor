@@ -238,6 +238,17 @@ def login():
 @app.route('/predict', methods=['POST'])
 def make_prediction():
     try:
+        age_map = {
+            "Less than 1 year": 1,
+            "1 - 3 years": 2,
+            "4 - 6 years": 5,
+            "7 - 10 years": 8,
+            "More than 10 years": 12
+        }
+
+        raw_age = request.form.get("Building_Age")
+        building_age = age_map.get(raw_age, 0)
+
         data = {
             "Governorate": request.form.get("Governorate"),
             "Wilayat": request.form.get("Wilayat"),
@@ -246,7 +257,7 @@ def make_prediction():
             "Bedrooms": int(request.form.get("Bedrooms", 0)),
             "Bathrooms": float(request.form.get("Bathrooms", 0)),
             "Floor": int(request.form.get("Floor", 0)),
-            "Building Age": request.form.get("Building_Age"),
+            "Building Age": building_age,
             "Furnishing": request.form.get("Furnishing")
         }
 
@@ -268,6 +279,7 @@ def make_prediction():
         return jsonify({"predicted_price": round(float(price), 2)})
 
     except Exception as e:
+        conn.rollback()  # 🔥 مهم جداً
         return jsonify({"error": str(e)})
 
 # -------------------- تشغيل السيرفر --------------------
