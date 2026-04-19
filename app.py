@@ -11,8 +11,13 @@ app.secret_key = "secret123"
 bcrypt = Bcrypt(app)
 
 # -------------------- الاتصال بقاعدة البيانات --------------------
-conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
-cursor = conn.cursor(cursor_factory=RealDictCursor)
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+conn = psycopg2.connect(DATABASE_URL)
+cursor = conn.cursor()
 
 # -------------------- تحديث السوق وإعادة تدريب النموذج --------------------
 @app.route('/update_data')
@@ -122,20 +127,26 @@ def favorite():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        user_type = request.form['user_type']
+        try:
+            name = request.form['name']
+            email = request.form['email']
+            password = request.form['password']
+            user_type = request.form['user_type']
 
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-        cursor.execute("""
-            INSERT INTO users (name, email, password, user_type)
-            VALUES (%s,%s,%s,%s)
-        """, (name, email, hashed_password, user_type))
+            cursor.execute("""
+                INSERT INTO users (name, email, password, user_type)
+                VALUES (%s,%s,%s,%s)
+            """, (name, email, hashed_password, user_type))
 
-        conn.commit()
-        return redirect('/login')
+            conn.commit()
+            return redirect('/login')
+
+        except Exception as e:
+            conn.rollback()
+            print(e)
+            return str(e)
 
     return render_template('register.html')
 
