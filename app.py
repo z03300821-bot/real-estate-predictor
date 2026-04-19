@@ -246,7 +246,7 @@ def make_prediction():
             "Bedrooms": int(request.form.get("Bedrooms", 0)),
             "Bathrooms": float(request.form.get("Bathrooms", 0)),
             "Floor": int(request.form.get("Floor", 0)),
-            "Building Age": int(request.form.get("Building_Age")),
+            "Building Age": request.form.get("Building_Age"),,
             "Furnishing": request.form.get("Furnishing")
         }
 
