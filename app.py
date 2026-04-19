@@ -18,6 +18,7 @@ if DATABASE_URL.startswith("postgres://"):
 
 conn = psycopg2.connect(DATABASE_URL)
 cursor = conn.cursor()
+cursor = conn.cursor(cursor_factory=RealDictCursor)
 
 # -------------------- تحديث السوق وإعادة تدريب النموذج --------------------
 @app.route('/update_data')
