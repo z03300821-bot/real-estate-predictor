@@ -17,7 +17,6 @@ if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
 cursor = conn.cursor(cursor_factory=RealDictCursor)
 
 # -------------------- تحديث السوق وإعادة تدريب النموذج --------------------
