@@ -19,7 +19,14 @@ CREATE TABLE IF NOT EXISTS users (
     user_type TEXT
 );
 """)
-
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS property_views (
+    id SERIAL PRIMARY KEY,
+    property_id INT,
+    user_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+""")
 # ---------------- PROPERTIES ----------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS properties (
