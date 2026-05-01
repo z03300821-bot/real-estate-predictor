@@ -26,11 +26,20 @@ def get_db():
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     return conn, cursor
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/login')
 
 # -------------------- HOME --------------------
 @app.route('/')
 def homepage():
     return render_template('homepage.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/predictions')
 def predictions():
@@ -118,7 +127,15 @@ def seller_dashboard():
 
     conn.close()
 
-    return render_template("seller_dashboard.html", properties=properties)
+    return render_template(
+        "seller_dashboard.html",
+        properties=properties,
+        username=session.get('name'),
+        total_properties=len(properties),
+        total_views=0,
+        total_favorites=0,
+        profile_image="default.png"
+    )
 
 
 # -------------------- BUYER --------------------
