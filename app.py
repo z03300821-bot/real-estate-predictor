@@ -147,6 +147,10 @@ def add_property():
 def exploring():
     return render_template('exploring.html')
 
+@app.route('/predictions')
+def predictions():
+    return render_template('predictions.html')
+
 
 # ---------------- PREDICT ----------------
 @app.route('/predict', methods=['POST'])
