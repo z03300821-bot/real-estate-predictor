@@ -155,6 +155,18 @@ def predictions():
 def favorite():
     return render_template('favorite.html')
 
+@app.route('/my_listings')
+def my_listings():
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM properties WHERE seller_id=%s", (session['user_id'],))
+    properties = cursor.fetchall()
+    conn.close()
+
+    return render_template('my_listings.html', properties=properties)
+
 # ---------------- PREDICT ----------------
 @app.route('/predict', methods=['POST'])
 def make_prediction():
