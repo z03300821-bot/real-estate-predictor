@@ -151,6 +151,9 @@ def exploring():
 def predictions():
     return render_template('predictions.html')
 
+@app.route('/favorite')
+def favorite():
+    return render_template('favorite.html')
 
 # ---------------- PREDICT ----------------
 @app.route('/predict', methods=['POST'])
