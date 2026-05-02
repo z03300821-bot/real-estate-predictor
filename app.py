@@ -13,10 +13,10 @@ bcrypt = Bcrypt(app)
  
 # -------------------- الاتصال بقاعدة البيانات --------------------
 db = psycopg2.connect(
-    host=os.environ.get("dpg-d7huasugvqtc738tuueg-a"),
-    database=os.environ.get("realestate_db_429j"),
-    user=os.environ.get("realestate_db_429j_user"),
-    password=os.environ.get("UzRxf2NzoLIQIdZlxJtrvo7SycCoTTq0"),
+    host=os.environ.get("DB_HOST"),
+    database=os.environ.get("DB_NAME"),
+    user=os.environ.get("DB_USER"),
+    password=os.environ.get("DB_PASSWORD"),
     port=os.environ.get("DB_PORT", 5432)
 )
 
