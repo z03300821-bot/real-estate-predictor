@@ -143,6 +143,10 @@ def add_property():
 
     return render_template('seller_add_property.html')
 
+@app.route('/exploring')
+def exploring():
+    return render_template('exploring.html')
+
 
 # ---------------- PREDICT ----------------
 @app.route('/predict', methods=['POST'])
